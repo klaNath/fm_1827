@@ -74,6 +74,7 @@ START   	MOVLB   1
 MAIN		CLRW
 		CALL	CHKSW
 		CALL	SYN_JOB
+        ;CALL    INCCNT
 		BTFSC	JOBF,FM_EST
 		CALL	FM
 		CALL	CASTWAV
@@ -101,6 +102,19 @@ SYN_JOB		MOVF	JOBF,0
 		LSLF	WREG,0
 		IORWF	JOBF,1
 		RETURN
+
+
+;still coding
+INCCNT  INCF    SYSTIK,1
+               BTFSS    SYSTIK,5
+               RETURN
+               CLRF     SYSTIC
+               BTFSS    PORTA,0
+               RETURN
+               BTFSC    CLICNT
+
+;still coding
+
 
 FM		BTFSC	JOBF,FM_ON
 		CALL	INIT_FM
