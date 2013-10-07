@@ -111,8 +111,7 @@ INCCNT  INCF    SYSTIK,1
                CLRF     SYSTIC
                BTFSS    PORTA,0
                RETURN
-               BTFSC    CLICNT
-
+               LSRF          
 ;still coding
 
 

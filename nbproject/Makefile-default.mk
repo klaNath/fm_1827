@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../fm_asm/fm_1827.asm
+SOURCEFILES_QUOTED_IF_SPACED=fm_1827.asm
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1186865614/fm_1827.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1186865614/fm_1827.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/fm_1827.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/fm_1827.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1186865614/fm_1827.o
+OBJECTFILES=${OBJECTDIR}/fm_1827.o
 
 # Source Files
-SOURCEFILES=../fm_asm/fm_1827.asm
+SOURCEFILES=fm_1827.asm
 
 
 CFLAGS=
@@ -79,22 +79,22 @@ MP_LINKER_DEBUG_OPTION= -u_DEBUGDATASTART=0x245 -u_DEBUGDATALEN=0xa
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: assemble
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/_ext/1186865614/fm_1827.o: ../fm_asm/fm_1827.asm  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/1186865614 
-	@${RM} ${OBJECTDIR}/_ext/1186865614/fm_1827.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1186865614/fm_1827.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/_ext/1186865614/fm_1827.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_PK3=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/_ext/1186865614/fm_1827.lst\\\" -e\\\"${OBJECTDIR}/_ext/1186865614/fm_1827.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/_ext/1186865614/fm_1827.o\\\" \\\"../fm_asm/fm_1827.asm\\\" 
-	@${DEP_GEN} -d "${OBJECTDIR}/_ext/1186865614/fm_1827.o"
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1186865614/fm_1827.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
+${OBJECTDIR}/fm_1827.o: fm_1827.asm  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/fm_1827.o.d 
+	@${RM} ${OBJECTDIR}/fm_1827.o 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/fm_1827.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_PK3=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/fm_1827.lst\\\" -e\\\"${OBJECTDIR}/fm_1827.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/fm_1827.o\\\" \\\"fm_1827.asm\\\" 
+	@${DEP_GEN} -d "${OBJECTDIR}/fm_1827.o"
+	@${FIXDEPS} "${OBJECTDIR}/fm_1827.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	
 else
-${OBJECTDIR}/_ext/1186865614/fm_1827.o: ../fm_asm/fm_1827.asm  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/1186865614 
-	@${RM} ${OBJECTDIR}/_ext/1186865614/fm_1827.o.d 
-	@${RM} ${OBJECTDIR}/_ext/1186865614/fm_1827.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/_ext/1186865614/fm_1827.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/_ext/1186865614/fm_1827.lst\\\" -e\\\"${OBJECTDIR}/_ext/1186865614/fm_1827.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/_ext/1186865614/fm_1827.o\\\" \\\"../fm_asm/fm_1827.asm\\\" 
-	@${DEP_GEN} -d "${OBJECTDIR}/_ext/1186865614/fm_1827.o"
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1186865614/fm_1827.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
+${OBJECTDIR}/fm_1827.o: fm_1827.asm  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/fm_1827.o.d 
+	@${RM} ${OBJECTDIR}/fm_1827.o 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/fm_1827.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/fm_1827.lst\\\" -e\\\"${OBJECTDIR}/fm_1827.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/fm_1827.o\\\" \\\"fm_1827.asm\\\" 
+	@${DEP_GEN} -d "${OBJECTDIR}/fm_1827.o"
+	@${FIXDEPS} "${OBJECTDIR}/fm_1827.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	
 endif
 
