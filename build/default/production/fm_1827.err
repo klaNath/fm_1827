@@ -1,0 +1,14 @@
+Warning[205] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 1 : Found directive in column 1. (LIST)
+Warning[205] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 2 : Found directive in column 1. (INCLUDE)
+Warning[205] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 5 : Found directive in column 1. (__CONFIG)
+Message[303] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 5 : Program word too large.  Truncated to core size. (CFC4)
+Warning[205] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 6 : Found directive in column 1. (__CONFIG)
+Message[303] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 6 : Program word too large.  Truncated to core size. (DDFF)
+Message[302] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 56 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 57 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 59 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 61 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 63 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 64 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[303] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 579 : Program word too large.  Truncated to core size. (CFC4)
+Message[303] /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm 579 : Program word too large.  Truncated to core size. (DDFF)

@@ -1,0 +1,1549 @@
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Warning[205]: Found directive in column 1. (LIST)
+                      00001 LIST    P=PIC16F1827,R=DEC
+Warning[205]: Found directive in column 1. (INCLUDE)
+                      00002 INCLUDE "p16f1827.inc"
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F1827 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      01312         LIST
+                      00003 
+                      00004 
+Warning[205]: Found directive in column 1. (__CONFIG)
+Message[303]: Program word too large.  Truncated to core size. (CFC4)
+8007   0FC4           00005 __CONFIG _CONFIG1 , _PWRTE_ON & _MCLRE_ON & _WDTE_OFF & _FOSC_INTOSC & _CP_OFF &_CLKOUTEN_OFF & _IESO_OF
+                            F & _FCMEN_OFF
+Warning[205]: Found directive in column 1. (__CONFIG)
+Message[303]: Program word too large.  Truncated to core size. (DDFF)
+8008   1DFF           00006 __CONFIG _CONFIG2 , _WRT_OFF & _PLLEN_ON & _STVREN_OFF & _LVP_OFF
+                      00007 
+  00000020            00008 LOOPCNT         EQU     20H
+  00000021            00009 JOBF            EQU     21H
+  00000022            00010 INTFG           EQU     22H
+  00000023            00011 P_QUAD_0        EQU     23H
+  00000024            00012 P_PHASE_0       EQU     24H
+  00000025            00013 ENV_TIK         EQU     25H
+  00000026            00014 ENV_CNT         EQU     26H
+  00000027            00015 ENV_OUT         EQU     27H
+  00000028            00016 OUTWAV_0        EQU     28H
+  00000029            00017 MODF_0          EQU     29H
+                      00018 
+                      00019 
+                      00020 
+  0000002D            00021 MOD_SIG_0       EQU     2DH
+  0000002E            00022 KEY_PRV         EQU     2EH
+  0000002F            00023 P_QUAD_1        EQU     2FH
+  00000030            00024 P_PHASE_1       EQU     30H
+  00000031            00025 OUTWAV_1        EQU     31H
+  00000032            00026 MODF_1          EQU     32H
+  00000033            00027 MOD_SIG_1       EQU     33H
+  00000034            00028 ROM_PHASE       EQU     34H
+  00000035            00029 ROM_QUAD        EQU     35H
+  00000036            00030 OUTWAV          EQU     36H
+  00000037            00031 SYSTIK    EQU 37H
+  00000038            00032 ATKCNT    EQU 38H
+  00000039            00033 CNTMOD    EQU 39H
+                      00034 
+  00000004            00035 KEYPORT         EQU     4
+  00000000            00036 FM_ON           EQU     0
+  00000001            00037 FM_EST          EQU     1
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00038 
+  00000055            00039 JOBMASK         EQU     B'01010101'
+  00000088            00040 PHASE_ROM_H     EQU     88H
+  00000089            00041 ENV_ROM_H       EQU     89H
+                      00042 
+                      00043         ORG     00H
+0000   2???           00044 RESETV          GOTO    START
+                      00045 
+                      00046         ORG     04H
+0004   2???           00047 INTV            GOTO    IRQ
+                      00048 
+0005   0AA2           00049 IRQ             INCF    INTFG,1
+0006   30A0           00050                 MOVLW   B'10100000'
+0007   008B           00051                 MOVWF   INTCON
+0008   0009           00052                 RETFIE
+                      00053 
+0009   0021           00054 START           MOVLB   1
+000A   30D0           00055                 MOVLW   B'11010000'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000B   0095           00056                 MOVWF   OPTION_REG
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000C   018D           00057                 CLRF    TRISB
+000D   3010           00058                 MOVLW   B'00010000'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000E   008C           00059                 MOVWF   TRISA
+000F   30F0           00060                 MOVLW   B'11110000'
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0010   0099           00061                 MOVWF   OSCCON
+0011   0023           00062                 MOVLB   3
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0012   018C           00063                 CLRF    ANSELA
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0013   018D           00064                 CLRF    ANSELB
+0014   0020           00065                 MOVLB   0
+0015   30A0           00066                 MOVLW   B'10100000'
+0016   008B           00067                 MOVWF   INTCON
+0017   018D           00068                 CLRF    PORTB
+0018   0195           00069                 CLRF    TMR0
+0019   01A2           00070                 CLRF    INTFG
+001A   01A1           00071                 CLRF    JOBF
+001B   01A0           00072                 CLRF    LOOPCNT
+001C   2???           00073                 CALL    INIT_FM
+001D   2???           00074                 GOTO    MAIN
+                      00075 
+001E   0103           00076 MAIN            CLRW
+001F   2???           00077                 CALL    CHKSW
+0020   2???           00078                 CALL    SYN_JOB
+0021   18A1           00079                 BTFSC   JOBF,FM_EST
+0022   2???           00080                 CALL    FM
+0023   2???           00081                 CALL    CASTWAV
+                      00082 ;    CALL  DECRESE
+                      00083 ;    CALL  MODLOG
+0024   2???           00084                 CALL    SYNCS
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0025   2???           00085                 CALL    OUT_R2R
+0026   2???           00086                 GOTO    MAIN
+                      00087 
+0027   1FA0           00088 CHKSW BTFSS     LOOPCNT,7
+0028   0AB7           00089       INCF  SYSTIK,1
+0029   0008           00090                 RETURN
+002A   01A0           00091                 CLRF    LOOPCNT
+002B   1E0C           00092                 BTFSS   PORTA,KEYPORT
+002C   2???           00093                 GOTO    CLRKEY
+002D   182E           00094                 BTFSC   KEY_PRV,0
+002E   0008           00095                 RETURN
+002F   1421           00096                 BSF     JOBF,FM_ON
+0030   142E           00097                 BSF     KEY_PRV,0
+0031   300B           00098     MOVLW 11
+0032   07B8           00099     ADDWF ATKCNT,1
+0033   0008           00100                 RETURN
+0034   102E           00101 CLRKEY          BCF     KEY_PRV,0
+0035   0008           00102                 RETURN
+                      00103 
+0036   0821           00104 SYN_JOB         MOVF    JOBF,0
+0037   3955           00105                 ANDLW   JOBMASK
+0038   1903           00106                 BTFSC   STATUS,Z
+0039   0008           00107                 RETURN
+003A   3509           00108                 LSLF    WREG,0
+003B   04A1           00109                 IORWF   JOBF,1
+003C   0008           00110                 RETURN
+                      00111 
+003D   1821           00112 FM              BTFSC   JOBF,FM_ON
+003E   2???           00113                 CALL    INIT_FM
+003F   2???           00114                 CALL    P0_STEP
+0040   2???           00115                 CALL    P1_STEP
+0041   2???           00116                 CALL    OPX_WAV
+0042   2???           00117                 CALL    STEPENV
+0043   2???           00118                 CALL    APLYENV
+0044   2???           00119                 CALL    APLYMD0
+                      00120                 ;CALL   APLYMD1
+0045   0008           00121                 RETURN
+                      00122 
+0046   1021           00123 INIT_FM         BCF     JOBF,FM_ON
+0047   01A3           00124                 CLRF    P_QUAD_0
+0048   01A4           00125                 CLRF    P_PHASE_0
+0049   01A5           00126                 CLRF    ENV_TIK
+004A   01A6           00127                 CLRF    ENV_CNT
+004B   01A7           00128                 CLRF    ENV_OUT
+004C   01A8           00129                 CLRF    OUTWAV_0
+004D   01A9           00130                 CLRF    MODF_0
+004E   01AD           00131                 CLRF    MOD_SIG_0
+004F   01AF           00132                 CLRF    P_QUAD_1
+0050   01B0           00133                 CLRF    P_PHASE_1
+0051   01B1           00134                 CLRF    OUTWAV_1
+0052   01B2           00135                 CLRF    MODF_1
+0053   01B3           00136                 CLRF    MOD_SIG_1
+0054   0008           00137                 RETURN
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00138 
+0055   303A           00139 P0_STEP         MOVLW   58
+0056   07A4           00140                 ADDWF   P_PHASE_0,1
+0057   1803           00141                 BTFSC   STATUS,C
+0058   0AA3           00142                 INCF    P_QUAD_0,1
+0059   182D           00143                 BTFSC   MOD_SIG_0,0
+005A   2???           00144                 GOTO    SUB0
+005B   0829           00145 ADD0            MOVF    MODF_0,0
+005C   07A4           00146                 ADDWF   P_PHASE_0,1
+005D   1803           00147                 BTFSC   STATUS,C
+005E   0AA3           00148                 INCF    P_QUAD_0,1
+005F   0008           00149                 RETURN
+0060   0829           00150 SUB0            MOVF    MODF_0,0
+0061   02A4           00151                 SUBWF   P_PHASE_0,1
+0062   1C03           00152                 BTFSS   STATUS,C
+0063   03A3           00153                 DECF    P_QUAD_0,1
+0064   0008           00154                 RETURN
+                      00155 
+0065   301D           00156 P1_STEP         MOVLW   29
+0066   07B0           00157                 ADDWF   P_PHASE_1,1
+0067   1803           00158                 BTFSC   STATUS,C
+0068   0AAF           00159                 INCF    P_QUAD_1,1
+0069   182D           00160                 BTFSC   MOD_SIG_0,0
+006A   2???           00161                 GOTO    SUB1
+006B   0829           00162 ADD1            MOVF    MODF_0,0
+006C   07B0           00163                 ADDWF   P_PHASE_1,1
+006D   1803           00164                 BTFSC   STATUS,C
+006E   0AAF           00165                 INCF    P_QUAD_1,1
+006F   0008           00166                 RETURN
+0070   0829           00167 SUB1            MOVF    MODF_0,0
+0071   02B0           00168                 SUBWF   P_PHASE_1,1
+0072   1C03           00169                 BTFSS   STATUS,C
+0073   03AF           00170                 DECF    P_QUAD_1,1
+0074   0008           00171                 RETURN
+                      00172 
+0075   0824           00173 OPX_WAV MOVF    P_PHASE_0,0
+0076   00B4           00174                 MOVWF   ROM_PHASE
+0077   0823           00175                 MOVF    P_QUAD_0,0
+0078   00B5           00176                 MOVWF   ROM_QUAD
+0079   2???           00177                 CALL    ROM2SIN
+007A   0836           00178                 MOVF    OUTWAV,0
+007B   00A8           00179                 MOVWF   OUTWAV_0
+007C   0830           00180                 MOVF    P_PHASE_1,0
+007D   00B4           00181                 MOVWF   ROM_PHASE
+007E   082F           00182                 MOVF    P_QUAD_1,0
+007F   00B5           00183                 MOVWF   ROM_QUAD
+0080   2???           00184                 CALL    ROM2SIN
+0081   0836           00185                 MOVF    OUTWAV,0
+0082   00B1           00186                 MOVWF   OUTWAV_1
+0083   0008           00187                 RETURN
+                      00188 
+0084   0834           00189 ROM2SIN MOVF    ROM_PHASE,0
+0085   1835           00190                 BTFSC   ROM_QUAD,0
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0086   0909           00191                 COMF    WREG,0
+0087   0084           00192                 MOVWF   FSR0L
+0088   3088           00193                 MOVLW   PHASE_ROM_H
+0089   0085           00194                 MOVWF   FSR0H
+008A   0800           00195                 MOVF    INDF0,0
+008B   00B6           00196                 MOVWF   OUTWAV
+008C   0008           00197                 RETURN
+                      00198 
+008D   0FA5           00199 STEPENV INCFSZ  ENV_TIK,1
+008E   0008           00200                 RETURN
+008F   0AA6           00201                 INCF    ENV_CNT,1
+0090   0826           00202                 MOVF    ENV_CNT,0
+0091   3A24           00203                 XORLW   36
+0092   1903           00204                 BTFSC   STATUS,Z
+0093   10A1           00205                 BCF     JOBF,FM_EST
+0094   3089           00206                 MOVLW   ENV_ROM_H
+0095   0087           00207                 MOVWF   FSR1H
+0096   0826           00208                 MOVF    ENV_CNT,0
+0097   0086           00209                 MOVWF   FSR1L
+0098   0801           00210                 MOVF    INDF1,0
+0099   00A7           00211                 MOVWF   ENV_OUT
+009A   0008           00212                 RETURN
+                      00213 
+009B   0827           00214 APLYENV MOVF    ENV_OUT,0
+009C   1903           00215                 BTFSC   STATUS,Z
+009D   0008           00216                 RETURN
+009E   36A8           00217 LOOPENV         LSRF    OUTWAV_0,1
+009F   0B89           00218                 DECFSZ  WREG,1
+00A0   2???           00219                 GOTO    LOOPENV
+00A1   0008           00220                 RETURN
+                      00221 
+00A2   0828           00222 APLYMD0         MOVF    OUTWAV_0,0
+00A3   00A9           00223                 MOVWF   MODF_0
+00A4   36A9           00224                 LSRF    MODF_0,1
+00A5   01AD           00225                 CLRF    MOD_SIG_0
+00A6   1CA3           00226                 BTFSS   P_QUAD_0,1
+00A7   0008           00227                 RETURN
+00A8   142D           00228                 BSF     MOD_SIG_0,0
+00A9   0008           00229                 RETURN
+                      00230 
+00AA   0831           00231 APLYMD1         MOVF    OUTWAV_1,0
+00AB   00B2           00232                 MOVWF   MODF_1
+00AC   01B3           00233                 CLRF    MOD_SIG_1
+00AD   1CAF           00234                 BTFSS   P_QUAD_1,1
+00AE   0008           00235                 RETURN
+00AF   1433           00236                 BSF     MOD_SIG_1,0
+00B0   0008           00237                 RETURN
+                      00238 
+00B1   1F37           00239 DECRESE BTFSS SYSTIK,6
+00B2   0008           00240   RETURN
+00B3   01B7           00241   CLRF  SYSTIK
+00B4   36B8           00242   LSRF  ATKCNT,1
+00B5   0008           00243   RETURN
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00244 
+00B6   0838           00245 MODLOG  MOVF ATKCNT,0
+00B7   1903           00246   BTFSC STATUS,Z
+00B8   0008           00247   RETURN
+00B9   0AB9           00248 ROTCNT  INCF CNTMOD,1
+00BA   3609           00249   LSRF WREG,0
+00BB   1D03           00250   BTFSS STATUS,Z
+00BC   2???           00251   GOTO ROTCNT
+00BD   0008           00252   RETURN
+                      00253 
+                      00254 
+00BE   36B1           00255 CASTWAV         LSRF    OUTWAV_1,1
+00BF   18AF           00256                 BTFSC   P_QUAD_1,1
+00C0   2???           00257                 GOTO    CAST_L
+00C1   17B1           00258 CAST_H          BSF     OUTWAV_1,7
+00C2   0008           00259                 RETURN
+00C3   09B1           00260 CAST_L          COMF    OUTWAV_1,1
+00C4   13B1           00261                 BCF     OUTWAV_1,7
+00C5   0008           00262                 RETURN
+                      00263 
+00C6   1C22           00264 SYNCS           BTFSS   INTFG,0
+00C7   2???           00265                 GOTO    SYNCS
+00C8   0AA0           00266                 INCF    LOOPCNT,1
+00C9   01A2           00267                 CLRF    INTFG
+00CA   0008           00268                 RETURN
+                      00269 
+00CB   0831           00270 OUT_R2R         MOVF    OUTWAV_1,0
+00CC   008D           00271                 MOVWF   PORTB
+00CD   01B6           00272                 CLRF    OUTWAV
+00CE   01A8           00273                 CLRF    OUTWAV_0
+00CF   01B1           00274                 CLRF    OUTWAV_1
+00D0   0008           00275                 RETURN
+                      00276 
+                      00277 ;ROMs for fm synthesize table
+                      00278         ORG     800H
+0800   0000           00279         DE      0
+0801   0001           00280         DE      1
+0802   0003           00281         DE      3
+0803   0004           00282         DE      4
+0804   0006           00283         DE      6
+0805   0007           00284         DE      7
+0806   0009           00285         DE      9
+0807   000A           00286         DE      10
+0808   000C           00287         DE      12
+0809   000E           00288         DE      14
+080A   000F           00289         DE      15
+080B   0011           00290         DE      17
+080C   0012           00291         DE      18
+080D   0014           00292         DE      20
+080E   0015           00293         DE      21
+080F   0017           00294         DE      23
+0810   0019           00295         DE      25
+0811   001A           00296         DE      26
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0812   001C           00297         DE      28
+0813   001D           00298         DE      29
+0814   001F           00299         DE      31
+0815   0020           00300         DE      32
+0816   0022           00301         DE      34
+0817   0024           00302         DE      36
+0818   0025           00303         DE      37
+0819   0027           00304         DE      39
+081A   0028           00305         DE      40
+081B   002A           00306         DE      42
+081C   002B           00307         DE      43
+081D   002D           00308         DE      45
+081E   002E           00309         DE      46
+081F   0030           00310         DE      48
+0820   0031           00311         DE      49
+0821   0033           00312         DE      51
+0822   0035           00313         DE      53
+0823   0036           00314         DE      54
+0824   0038           00315         DE      56
+0825   0039           00316         DE      57
+0826   003B           00317         DE      59
+0827   003C           00318         DE      60
+0828   003E           00319         DE      62
+0829   003F           00320         DE      63
+082A   0041           00321         DE      65
+082B   0042           00322         DE      66
+082C   0044           00323         DE      68
+082D   0045           00324         DE      69
+082E   0047           00325         DE      71
+082F   0048           00326         DE      72
+0830   004A           00327         DE      74
+0831   004B           00328         DE      75
+0832   004D           00329         DE      77
+0833   004E           00330         DE      78
+0834   0050           00331         DE      80
+0835   0051           00332         DE      81
+0836   0053           00333         DE      83
+0837   0054           00334         DE      84
+0838   0056           00335         DE      86
+0839   0057           00336         DE      87
+083A   0059           00337         DE      89
+083B   005A           00338         DE      90
+083C   005C           00339         DE      92
+083D   005D           00340         DE      93
+083E   005F           00341         DE      95
+083F   0060           00342         DE      96
+0840   0061           00343         DE      97
+0841   0063           00344         DE      99
+0842   0064           00345         DE      100
+0843   0066           00346         DE      102
+0844   0067           00347         DE      103
+0845   0069           00348         DE      105
+0846   006A           00349         DE      106
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0847   006C           00350         DE      108
+0848   006D           00351         DE      109
+0849   006E           00352         DE      110
+084A   0070           00353         DE      112
+084B   0071           00354         DE      113
+084C   0073           00355         DE      115
+084D   0074           00356         DE      116
+084E   0075           00357         DE      117
+084F   0077           00358         DE      119
+0850   0078           00359         DE      120
+0851   007A           00360         DE      122
+0852   007B           00361         DE      123
+0853   007C           00362         DE      124
+0854   007E           00363         DE      126
+0855   007F           00364         DE      127
+0856   0080           00365         DE      128
+0857   0082           00366         DE      130
+0858   0083           00367         DE      131
+0859   0084           00368         DE      132
+085A   0086           00369         DE      134
+085B   0087           00370         DE      135
+085C   0088           00371         DE      136
+085D   008A           00372         DE      138
+085E   008B           00373         DE      139
+085F   008C           00374         DE      140
+0860   008E           00375         DE      142
+0861   008F           00376         DE      143
+0862   0090           00377         DE      144
+0863   0092           00378         DE      146
+0864   0093           00379         DE      147
+0865   0094           00380         DE      148
+0866   0095           00381         DE      149
+0867   0097           00382         DE      151
+0868   0098           00383         DE      152
+0869   0099           00384         DE      153
+086A   009A           00385         DE      154
+086B   009C           00386         DE      156
+086C   009D           00387         DE      157
+086D   009E           00388         DE      158
+086E   009F           00389         DE      159
+086F   00A1           00390         DE      161
+0870   00A2           00391         DE      162
+0871   00A3           00392         DE      163
+0872   00A4           00393         DE      164
+0873   00A5           00394         DE      165
+0874   00A7           00395         DE      167
+0875   00A8           00396         DE      168
+0876   00A9           00397         DE      169
+0877   00AA           00398         DE      170
+0878   00AB           00399         DE      171
+0879   00AC           00400         DE      172
+087A   00AE           00401         DE      174
+087B   00AF           00402         DE      175
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+087C   00B0           00403         DE      176
+087D   00B1           00404         DE      177
+087E   00B2           00405         DE      178
+087F   00B3           00406         DE      179
+0880   00B4           00407         DE      180
+0881   00B5           00408         DE      181
+0882   00B7           00409         DE      183
+0883   00B8           00410         DE      184
+0884   00B9           00411         DE      185
+0885   00BA           00412         DE      186
+0886   00BB           00413         DE      187
+0887   00BC           00414         DE      188
+0888   00BD           00415         DE      189
+0889   00BE           00416         DE      190
+088A   00BF           00417         DE      191
+088B   00C0           00418         DE      192
+088C   00C1           00419         DE      193
+088D   00C2           00420         DE      194
+088E   00C3           00421         DE      195
+088F   00C4           00422         DE      196
+0890   00C5           00423         DE      197
+0891   00C6           00424         DE      198
+0892   00C7           00425         DE      199
+0893   00C8           00426         DE      200
+0894   00C9           00427         DE      201
+0895   00CA           00428         DE      202
+0896   00CB           00429         DE      203
+0897   00CC           00430         DE      204
+0898   00CD           00431         DE      205
+0899   00CE           00432         DE      206
+089A   00CF           00433         DE      207
+089B   00D0           00434         DE      208
+089C   00D1           00435         DE      209
+089D   00D1           00436         DE      209
+089E   00D2           00437         DE      210
+089F   00D3           00438         DE      211
+08A0   00D4           00439         DE      212
+08A1   00D5           00440         DE      213
+08A2   00D6           00441         DE      214
+08A3   00D7           00442         DE      215
+08A4   00D7           00443         DE      215
+08A5   00D8           00444         DE      216
+08A6   00D9           00445         DE      217
+08A7   00DA           00446         DE      218
+08A8   00DB           00447         DE      219
+08A9   00DC           00448         DE      220
+08AA   00DC           00449         DE      220
+08AB   00DD           00450         DE      221
+08AC   00DE           00451         DE      222
+08AD   00DF           00452         DE      223
+08AE   00DF           00453         DE      223
+08AF   00E0           00454         DE      224
+08B0   00E1           00455         DE      225
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+08B1   00E2           00456         DE      226
+08B2   00E2           00457         DE      226
+08B3   00E3           00458         DE      227
+08B4   00E4           00459         DE      228
+08B5   00E4           00460         DE      228
+08B6   00E5           00461         DE      229
+08B7   00E6           00462         DE      230
+08B8   00E6           00463         DE      230
+08B9   00E7           00464         DE      231
+08BA   00E8           00465         DE      232
+08BB   00E8           00466         DE      232
+08BC   00E9           00467         DE      233
+08BD   00EA           00468         DE      234
+08BE   00EA           00469         DE      234
+08BF   00EB           00470         DE      235
+08C0   00EC           00471         DE      236
+08C1   00EC           00472         DE      236
+08C2   00ED           00473         DE      237
+08C3   00ED           00474         DE      237
+08C4   00EE           00475         DE      238
+08C5   00EE           00476         DE      238
+08C6   00EF           00477         DE      239
+08C7   00EF           00478         DE      239
+08C8   00F0           00479         DE      240
+08C9   00F1           00480         DE      241
+08CA   00F1           00481         DE      241
+08CB   00F2           00482         DE      242
+08CC   00F2           00483         DE      242
+08CD   00F3           00484         DE      243
+08CE   00F3           00485         DE      243
+08CF   00F3           00486         DE      243
+08D0   00F4           00487         DE      244
+08D1   00F4           00488         DE      244
+08D2   00F5           00489         DE      245
+08D3   00F5           00490         DE      245
+08D4   00F6           00491         DE      246
+08D5   00F6           00492         DE      246
+08D6   00F6           00493         DE      246
+08D7   00F7           00494         DE      247
+08D8   00F7           00495         DE      247
+08D9   00F8           00496         DE      248
+08DA   00F8           00497         DE      248
+08DB   00F8           00498         DE      248
+08DC   00F9           00499         DE      249
+08DD   00F9           00500         DE      249
+08DE   00F9           00501         DE      249
+08DF   00FA           00502         DE      250
+08E0   00FA           00503         DE      250
+08E1   00FA           00504         DE      250
+08E2   00FA           00505         DE      250
+08E3   00FB           00506         DE      251
+08E4   00FB           00507         DE      251
+08E5   00FB           00508         DE      251
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+08E6   00FB           00509         DE      251
+08E7   00FC           00510         DE      252
+08E8   00FC           00511         DE      252
+08E9   00FC           00512         DE      252
+08EA   00FC           00513         DE      252
+08EB   00FD           00514         DE      253
+08EC   00FD           00515         DE      253
+08ED   00FD           00516         DE      253
+08EE   00FD           00517         DE      253
+08EF   00FD           00518         DE      253
+08F0   00FD           00519         DE      253
+08F1   00FE           00520         DE      254
+08F2   00FE           00521         DE      254
+08F3   00FE           00522         DE      254
+08F4   00FE           00523         DE      254
+08F5   00FE           00524         DE      254
+08F6   00FE           00525         DE      254
+08F7   00FE           00526         DE      254
+08F8   00FE           00527         DE      254
+08F9   00FE           00528         DE      254
+08FA   00FE           00529         DE      254
+08FB   00FE           00530         DE      254
+08FC   00FE           00531         DE      254
+08FD   00FE           00532         DE      254
+08FE   00FE           00533         DE      254
+08FF   00FF           00534         DE      255
+                      00535 
+                      00536 
+                      00537         ORG     900H
+0900   0008           00538         DE      8
+0901   0007           00539         DE      7
+0902   0006           00540         DE      6
+0903   0005           00541         DE      5
+0904   0004           00542         DE      4
+0905   0003           00543         DE      3
+0906   0003           00544         DE      3
+0907   0003           00545         DE      3
+0908   0003           00546         DE      3
+0909   0003           00547         DE      3
+090A   0004           00548         DE      4
+090B   0004           00549         DE      4
+090C   0004           00550         DE      4
+090D   0004           00551         DE      4
+090E   0004           00552         DE      4
+090F   0004           00553         DE      4
+0910   0004           00554         DE      4
+0911   0004           00555         DE      4
+0912   0004           00556         DE      4
+0913   0004           00557         DE      4
+0914   0004           00558         DE      4
+0915   0004           00559         DE      4
+0916   0004           00560         DE      4
+0917   0004           00561         DE      4
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0918   0004           00562         DE      4
+0919   0004           00563         DE      4
+091A   0004           00564         DE      4
+091B   0004           00565         DE      4
+091C   0004           00566         DE      4
+091D   0004           00567         DE      4
+091E   0004           00568         DE      4
+091F   0004           00569         DE      4
+0920   0004           00570         DE      4
+0921   0004           00571         DE      4
+0922   0005           00572         DE      5
+0923   0006           00573         DE      6
+0924   0007           00574         DE      7
+0925   0008           00575         DE      8
+                      00576 
+                      00577 
+                      00578 
+Message[303]: Program word too large.  Truncated to core size. (CFC4)
+Message[303]: Program word too large.  Truncated to core size. (DDFF)
+0FC4 1DFF             00579         END
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ABDEN                             00000000
+ABDOVF                            00000007
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ACKTIM                            00000007
+ADCON0                            0000009D
+ADCON1                            0000009E
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADD0                              0000005B
+ADD1                              0000006B
+ADDEN                             00000003
+ADFM                              00000007
+ADFVR0                            00000000
+ADFVR1                            00000001
+ADGO                              00000001
+ADIE                              00000006
+ADIF                              00000006
+ADNREF                            00000002
+ADON                              00000000
+ADPREF0                           00000000
+ADPREF1                           00000001
+ADRES                             0000009B
+ADRESH                            0000009C
+ADRESL                            0000009B
+AHEN                              00000001
+ANSA0                             00000000
+ANSA1                             00000001
+ANSA2                             00000002
+ANSA3                             00000003
+ANSA4                             00000004
+ANSB1                             00000001
+ANSB2                             00000002
+ANSB3                             00000003
+ANSB4                             00000004
+ANSB5                             00000005
+ANSB6                             00000006
+ANSB7                             00000007
+ANSELA                            0000018C
+ANSELB                            0000018D
+APFCON0                           0000011D
+APFCON1                           0000011E
+APLYENV                           0000009B
+APLYMD0                           000000A2
+APLYMD1                           000000AA
+ATKCNT                            00000038
+BAUDCON                           0000019F
+BCL1IE                            00000003
+BCL1IF                            00000003
+BCL2IE                            00000001
+BCL2IF                            00000001
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+BF                                00000000
+BOEN                              00000004
+BORCON                            00000116
+BORRDY                            00000000
+BRG16                             00000003
+BRGH                              00000002
+BSR                               00000008
+BSR0                              00000000
+BSR1                              00000001
+BSR2                              00000002
+BSR3                              00000003
+BSR4                              00000004
+BSR_SHAD                          00000FE6
+C                                 00000000
+C1HYS                             00000001
+C1IE                              00000005
+C1IF                              00000005
+C1INTN                            00000006
+C1INTP                            00000007
+C1NCH0                            00000000
+C1NCH1                            00000001
+C1OE                              00000005
+C1ON                              00000007
+C1OUT                             00000006
+C1PCH0                            00000004
+C1PCH1                            00000005
+C1POL                             00000004
+C1SP                              00000002
+C1SYNC                            00000000
+C1TSEL0                           00000000
+C1TSEL1                           00000001
+C2HYS                             00000001
+C2IE                              00000006
+C2IF                              00000006
+C2INTN                            00000006
+C2INTP                            00000007
+C2NCH0                            00000000
+C2NCH1                            00000001
+C2OE                              00000005
+C2ON                              00000007
+C2OUT                             00000006
+C2PCH0                            00000004
+C2PCH1                            00000005
+C2POL                             00000004
+C2SP                              00000002
+C2SYNC                            00000000
+C2TSEL0                           00000002
+C2TSEL1                           00000003
+C3TSEL0                           00000004
+C3TSEL1                           00000005
+C4TSEL0                           00000006
+C4TSEL1                           00000007
+CASTWAV                           000000BE
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CAST_H                            000000C1
+CAST_L                            000000C3
+CCP1AS                            00000295
+CCP1AS0                           00000004
+CCP1AS1                           00000005
+CCP1AS2                           00000006
+CCP1ASE                           00000007
+CCP1CON                           00000293
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1SEL                           00000000
+CCP2AS                            0000029C
+CCP2AS0                           00000004
+CCP2AS1                           00000005
+CCP2AS2                           00000006
+CCP2ASE                           00000007
+CCP2CON                           0000029A
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2SEL                           00000003
+CCP3CON                           00000313
+CCP3IE                            00000004
+CCP3IF                            00000004
+CCP3M0                            00000000
+CCP3M1                            00000001
+CCP3M2                            00000002
+CCP3M3                            00000003
+CCP4CON                           0000031A
+CCP4IE                            00000005
+CCP4IF                            00000005
+CCP4M0                            00000000
+CCP4M1                            00000001
+CCP4M2                            00000002
+CCP4M3                            00000003
+CCPR1                             00000291
+CCPR1H                            00000292
+CCPR1L                            00000291
+CCPR2                             00000298
+CCPR2H                            00000299
+CCPR2L                            00000298
+CCPR3                             00000311
+CCPR3H                            00000312
+CCPR3L                            00000311
+CCPR4                             00000318
+CCPR4H                            00000319
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CCPR4L                            00000318
+CCPTMRS                           0000029E
+CCPTMRS0                          0000029E
+CDAFVR0                           00000002
+CDAFVR1                           00000003
+CFGS                              00000006
+CHKSW                             00000027
+CHS0                              00000002
+CHS1                              00000003
+CHS2                              00000004
+CHS3                              00000005
+CHS4                              00000006
+CKE                               00000006
+CKP                               00000004
+CLKRCON                           0000039A
+CLKRDC0                           00000003
+CLKRDC1                           00000004
+CLKRDIV0                          00000000
+CLKRDIV1                          00000001
+CLKRDIV2                          00000002
+CLKREN                            00000007
+CLKROE                            00000006
+CLKRSLR                           00000005
+CLRKEY                            00000034
+CM1CON0                           00000111
+CM1CON1                           00000112
+CM2CON0                           00000113
+CM2CON1                           00000114
+CMOUT                             00000115
+CNTMOD                            00000039
+CPSCH0                            00000000
+CPSCH1                            00000001
+CPSCH2                            00000002
+CPSCH3                            00000003
+CPSCON0                           0000001E
+CPSCON1                           0000001F
+CPSON                             00000007
+CPSOUT                            00000001
+CPSRNG0                           00000002
+CPSRNG1                           00000003
+CREN                              00000004
+CSRC                              00000007
+C_SHAD                            00000000
+DACCON0                           00000118
+DACCON1                           00000119
+DACEN                             00000007
+DACLPS                            00000006
+DACNSS                            00000000
+DACOE                             00000005
+DACPSS0                           00000002
+DACPSS1                           00000003
+DACR0                             00000000
+DACR1                             00000001
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+DACR2                             00000002
+DACR3                             00000003
+DACR4                             00000004
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+DC2B0                             00000004
+DC2B1                             00000005
+DC3B0                             00000004
+DC3B1                             00000005
+DC4B0                             00000004
+DC4B1                             00000005
+DC_SHAD                           00000001
+DECRESE                           000000B1
+DHEN                              00000000
+D_NOT_A                           00000005
+ECCP1AS                           00000295
+ECCP2AS                           0000029C
+EEADR                             00000191
+EEADRH                            00000192
+EEADRL                            00000191
+EECON1                            00000195
+EECON2                            00000196
+EEDAT                             00000193
+EEDATH                            00000194
+EEDATL                            00000193
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+ENV_CNT                           00000026
+ENV_OUT                           00000027
+ENV_ROM_H                         00000089
+ENV_TIK                           00000025
+F                                 00000001
+FERR                              00000002
+FM                                0000003D
+FM_EST                            00000001
+FM_ON                             00000000
+FREE                              00000004
+FSR0                              00000004
+FSR0H                             00000005
+FSR0H_SHAD                        00000FE9
+FSR0L                             00000004
+FSR0L_SHAD                        00000FE8
+FSR1                              00000006
+FSR1H                             00000007
+FSR1H_SHAD                        00000FEB
+FSR1L                             00000006
+FSR1L_SHAD                        00000FEA
+FVRCON                            00000117
+FVREN                             00000007
+FVRRDY                            00000006
+GCEN                              00000007
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+GIE                               00000007
+GO                                00000001
+GO_NOT_DONE                       00000001
+HFIOFL                            00000003
+HFIOFR                            00000004
+HFIOFS                            00000000
+INDF0                             00000000
+INDF1                             00000001
+INIT_FM                           00000046
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+INTFG                             00000022
+INTV                              00000004
+IOCBF                             00000396
+IOCBF0                            00000000
+IOCBF1                            00000001
+IOCBF2                            00000002
+IOCBF3                            00000003
+IOCBF4                            00000004
+IOCBF5                            00000005
+IOCBF6                            00000006
+IOCBF7                            00000007
+IOCBN                             00000395
+IOCBN0                            00000000
+IOCBN1                            00000001
+IOCBN2                            00000002
+IOCBN3                            00000003
+IOCBN4                            00000004
+IOCBN5                            00000005
+IOCBN6                            00000006
+IOCBN7                            00000007
+IOCBP                             00000394
+IOCBP0                            00000000
+IOCBP1                            00000001
+IOCBP2                            00000002
+IOCBP3                            00000003
+IOCBP4                            00000004
+IOCBP5                            00000005
+IOCBP6                            00000006
+IOCBP7                            00000007
+IOCIE                             00000003
+IOCIF                             00000000
+IRCF0                             00000003
+IRCF1                             00000004
+IRCF2                             00000005
+IRCF3                             00000006
+IRQ                               00000005
+JOBF                              00000021
+JOBMASK                           00000055
+KEYPORT                           00000004
+KEY_PRV                           0000002E
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+LATA                              0000010C
+LATA0                             00000000
+LATA1                             00000001
+LATA2                             00000002
+LATA3                             00000003
+LATA4                             00000004
+LATA6                             00000006
+LATA7                             00000007
+LATB                              0000010D
+LATB0                             00000000
+LATB1                             00000001
+LATB2                             00000002
+LATB3                             00000003
+LATB4                             00000004
+LATB5                             00000005
+LATB6                             00000006
+LATB7                             00000007
+LFIOFR                            00000001
+LOOPCNT                           00000020
+LOOPENV                           0000009E
+LWLO                              00000005
+MAIN                              0000001E
+MC1OUT                            00000000
+MC2OUT                            00000001
+MDBIT                             00000000
+MDCARH                            0000039F
+MDCARL                            0000039E
+MDCH0                             00000000
+MDCH1                             00000001
+MDCH2                             00000002
+MDCH3                             00000003
+MDCHODIS                          00000007
+MDCHPOL                           00000006
+MDCHSYNC                          00000005
+MDCL0                             00000000
+MDCL1                             00000001
+MDCL2                             00000002
+MDCL3                             00000003
+MDCLODIS                          00000007
+MDCLPOL                           00000006
+MDCLSYNC                          00000005
+MDCON                             0000039C
+MDEN                              00000007
+MDMS0                             00000000
+MDMS1                             00000001
+MDMS2                             00000002
+MDMS3                             00000003
+MDMSODIS                          00000007
+MDOE                              00000006
+MDOPOL                            00000004
+MDOUT                             00000003
+MDSLR                             00000005
+MDSRC                             0000039D
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+MFIOFR                            00000002
+MODF_0                            00000029
+MODF_1                            00000032
+MODLOG                            000000B6
+MOD_SIG_0                         0000002D
+MOD_SIG_1                         00000033
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RI                            00000002
+NOT_RMCLR                         00000003
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_WPUEN                         00000007
+OERR                              00000001
+OPTION_REG                        00000095
+OPX_WAV                           00000075
+OSCCON                            00000099
+OSCSTAT                           0000009A
+OSCTUNE                           00000098
+OSFIE                             00000007
+OSFIF                             00000007
+OSTS                              00000005
+OUTWAV                            00000036
+OUTWAV_0                          00000028
+OUTWAV_1                          00000031
+OUT_R2R                           000000CB
+P                                 00000004
+P0_STEP                           00000055
+P1CSEL                            00000001
+P1DC0                             00000000
+P1DC1                             00000001
+P1DC2                             00000002
+P1DC3                             00000003
+P1DC4                             00000004
+P1DC5                             00000005
+P1DC6                             00000006
+P1DSEL                            00000002
+P1M0                              00000006
+P1M1                              00000007
+P1RSEN                            00000007
+P1_STEP                           00000065
+P2BSEL                            00000004
+P2DC0                             00000000
+P2DC1                             00000001
+P2DC2                             00000002
+P2DC3                             00000003
+P2DC4                             00000004
+P2DC5                             00000005
+P2DC6                             00000006
+P2M0                              00000006
+P2M1                              00000007
+P2RSEN                            00000007
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PCIE                              00000006
+PCL                               00000002
+PCLATH                            0000000A
+PCLATH_SHAD                       00000FE7
+PCON                              00000096
+PEIE                              00000006
+PEN                               00000002
+PHASE_ROM_H                       00000088
+PIE1                              00000091
+PIE2                              00000092
+PIE3                              00000093
+PIE4                              00000094
+PIR1                              00000011
+PIR2                              00000012
+PIR3                              00000013
+PIR4                              00000014
+PLLR                              00000006
+PORTA                             0000000C
+PORTB                             0000000D
+PR2                               0000001B
+PR4                               00000416
+PR6                               0000041D
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSS1AC0                           00000002
+PSS1AC1                           00000003
+PSS1BD0                           00000000
+PSS1BD1                           00000001
+PSS2AC0                           00000002
+PSS2AC1                           00000003
+PSS2BD0                           00000000
+PSS2BD1                           00000001
+PSTR1CON                          00000296
+PSTR2CON                          0000029D
+PWM1CON                           00000294
+PWM2CON                           0000029B
+P_PHASE_0                         00000024
+P_PHASE_1                         00000030
+P_QUAD_0                          00000023
+P_QUAD_1                          0000002F
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RCEN                              00000003
+RCIDL                             00000006
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             00000199
+RCSTA                             0000019D
+RD                                00000000
+RESETV                            00000000
+ROM2SIN                           00000084
+ROM_PHASE                         00000034
+ROM_QUAD                          00000035
+ROTCNT                            000000B9
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+RXDTSEL                           00000007
+R_NOT_W                           00000002
+S                                 00000003
+SBCDE                             00000002
+SBOREN                            00000007
+SCIE                              00000005
+SCKP                              00000004
+SCS0                              00000000
+SCS1                              00000001
+SDAHT                             00000003
+SDO1SEL                           00000006
+SEN                               00000000
+SENDB                             00000003
+SMP                               00000007
+SP1BRG                            0000019B
+SP1BRGH                           0000019C
+SP1BRGL                           0000019B
+SPBRG                             0000019B
+SPBRGH                            0000019C
+SPBRGL                            0000019B
+SPEN                              00000007
+SPLLEN                            00000007
+SRCLK0                            00000004
+SRCLK1                            00000005
+SRCLK2                            00000006
+SRCON0                            0000011A
+SRCON1                            0000011B
+SREN                              00000005
+SRLEN                             00000007
+SRNQEN                            00000002
+SRPR                              00000000
+SRPS                              00000001
+SRQEN                             00000003
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 23
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SRRC1E                            00000000
+SRRC2E                            00000001
+SRRCKE                            00000002
+SRRPE                             00000003
+SRSC1E                            00000004
+SRSC2E                            00000005
+SRSCKE                            00000006
+SRSPE                             00000007
+SS1SEL                            00000005
+SSP1ADD                           00000212
+SSP1BUF                           00000211
+SSP1CON1                          00000215
+SSP1CON2                          00000216
+SSP1CON3                          00000217
+SSP1IE                            00000003
+SSP1IF                            00000003
+SSP1MSK                           00000213
+SSP1STAT                          00000214
+SSP2ADD                           0000021A
+SSP2BUF                           00000219
+SSP2CON1                          0000021D
+SSP2CON2                          0000021E
+SSP2CON3                          0000021F
+SSP2IE                            00000000
+SSP2IF                            00000000
+SSP2MSK                           0000021B
+SSP2STAT                          0000021C
+SSPADD                            00000212
+SSPBUF                            00000211
+SSPCON                            00000215
+SSPCON1                           00000215
+SSPCON2                           00000216
+SSPCON3                           00000217
+SSPEN                             00000005
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPMSK                            00000213
+SSPOV                             00000006
+SSPSTAT                           00000214
+START                             00000009
+STATUS                            00000003
+STATUS_SHAD                       00000FE4
+STEPENV                           0000008D
+STKOVF                            00000007
+STKPTR                            00000FED
+STKUNF                            00000006
+STR1A                             00000000
+STR1B                             00000001
+STR1C                             00000002
+STR1D                             00000003
+STR1SYNC                          00000004
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 24
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+STR2A                             00000000
+STR2B                             00000001
+STR2C                             00000002
+STR2D                             00000003
+STR2SYNC                          00000004
+SUB0                              00000060
+SUB1                              00000070
+SWDTEN                            00000000
+SYNC                              00000004
+SYNCS                             000000C6
+SYN_JOB                           00000036
+SYSTIK                            00000037
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T0XCS                             00000000
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000018
+T1GCON                            00000019
+T1GGO                             00000003
+T1GPOL                            00000006
+T1GSPM                            00000004
+T1GSS0                            00000000
+T1GSS1                            00000001
+T1GTM                             00000005
+T1GVAL                            00000002
+T1OSCEN                           00000003
+T1OSCR                            00000007
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             0000001C
+T2OUTPS0                          00000003
+T2OUTPS1                          00000004
+T2OUTPS2                          00000005
+T2OUTPS3                          00000006
+T4CKPS0                           00000000
+T4CKPS1                           00000001
+T4CON                             00000417
+T4OUTPS0                          00000003
+T4OUTPS1                          00000004
+T4OUTPS2                          00000005
+T4OUTPS3                          00000006
+T6CKPS0                           00000000
+T6CKPS1                           00000001
+T6CON                             0000041E
+T6OUTPS0                          00000003
+T6OUTPS1                          00000004
+T6OUTPS2                          00000005
+T6OUTPS3                          00000006
+TMR0                              00000015
+TMR0CS                            00000005
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 25
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR0SE                            00000004
+TMR1                              00000016
+TMR1CS0                           00000006
+TMR1CS1                           00000007
+TMR1GE                            00000007
+TMR1GIE                           00000007
+TMR1GIF                           00000007
+TMR1H                             00000017
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             00000016
+TMR1ON                            00000000
+TMR2                              0000001A
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TMR4                              00000415
+TMR4IE                            00000001
+TMR4IF                            00000001
+TMR4ON                            00000002
+TMR6                              0000041C
+TMR6IE                            00000003
+TMR6IF                            00000003
+TMR6ON                            00000002
+TOSH                              00000FEF
+TOSL                              00000FEE
+TRISA                             0000008C
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             0000008D
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRMT                              00000001
+TSEN                              00000005
+TSRNG                             00000004
+TUN0                              00000000
+TUN1                              00000001
+TUN2                              00000002
+TUN3                              00000003
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 26
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TUN4                              00000004
+TUN5                              00000005
+TX9                               00000006
+TX9D                              00000000
+TXCKSEL                           00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             0000019A
+TXSTA                             0000019E
+UA                                00000001
+W                                 00000000
+WCOL                              00000007
+WDTCON                            00000097
+WDTPS0                            00000001
+WDTPS1                            00000002
+WDTPS2                            00000003
+WDTPS3                            00000004
+WDTPS4                            00000005
+WPUA                              0000020C
+WPUA5                             00000005
+WPUB                              0000020D
+WPUB0                             00000000
+WPUB1                             00000001
+WPUB2                             00000002
+WPUB3                             00000003
+WPUB4                             00000004
+WPUB5                             00000005
+WPUB6                             00000006
+WPUB7                             00000007
+WR                                00000001
+WREG                              00000009
+WREG_SHAD                         00000FE5
+WREN                              00000002
+WRERR                             00000003
+WUE                               00000001
+Z                                 00000002
+Z_SHAD                            00000002
+_BOREN_NSLEEP                     0000FDFF
+_BOREN_OFF                        0000F9FF
+_BOREN_ON                         0000FFFF
+_BOREN_SBODEN                     0000FBFF
+_BORV_19                          0000FFFF
+_BORV_HI                          0000FBFF
+_BORV_LO                          0000FFFF
+_CLKOUTEN_OFF                     0000FFFF
+_CLKOUTEN_ON                      0000F7FF
+_CONFIG1                          00008007
+_CONFIG2                          00008008
+_CPD_OFF                          0000FFFF
+_CPD_ON                           0000FEFF
+_CP_OFF                           0000FFFF
+_CP_ON                            0000FF7F
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-8-2013  13:00:48         PAGE 27
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_DEVID1                           00008006
+_FCMEN_OFF                        0000DFFF
+_FCMEN_ON                         0000FFFF
+_FOSC_ECH                         0000FFFF
+_FOSC_ECL                         0000FFFD
+_FOSC_ECM                         0000FFFE
+_FOSC_EXTRC                       0000FFFB
+_FOSC_HS                          0000FFFA
+_FOSC_INTOSC                      0000FFFC
+_FOSC_LP                          0000FFF8
+_FOSC_XT                          0000FFF9
+_IDLOC0                           00008000
+_IDLOC1                           00008001
+_IDLOC2                           00008002
+_IDLOC3                           00008003
+_IESO_OFF                         0000EFFF
+_IESO_ON                          0000FFFF
+_LVP_OFF                          0000DFFF
+_LVP_ON                           0000FFFF
+_MCLRE_OFF                        0000FFBF
+_MCLRE_ON                         0000FFFF
+_PLLEN_OFF                        0000FEFF
+_PLLEN_ON                         0000FFFF
+_PWRTE_OFF                        0000FFFF
+_PWRTE_ON                         0000FFDF
+_STVREN_OFF                       0000FDFF
+_STVREN_ON                        0000FFFF
+_WDTE_NSLEEP                      0000FFF7
+_WDTE_OFF                         0000FFE7
+_WDTE_ON                          0000FFFF
+_WDTE_SWDTEN                      0000FFEF
+_WRT_ALL                          0000FFFC
+_WRT_BOOT                         0000FFFE
+_WRT_HALF                         0000FFFD
+_WRT_OFF                          0000FFFF
+__16F1827                         00000001
+
+Errors   :     0
+Warnings :     4 reported,     0 suppressed
+Messages :    10 reported,     0 suppressed
+
+

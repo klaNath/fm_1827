@@ -1,16 +1,16 @@
 MPLINK 4.50, Linker
-Linker Map File - Created Tue Oct  1 13:13:10 2013
+Linker Map File - Created Tue Oct  8 13:00:49 2013
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
                 ---------  ---------  ---------  ---------  ---------
                    .org_0       code   0x000000    program   0x000002
-                   .org_1       code   0x000004    program   0x00017a
+                   .org_1       code   0x000004    program   0x00019a
                    .org_2       code   0x000800    program   0x000200
                    .org_3       code   0x000900    program   0x00004c
                    .cinit    romdata   0x000926    program   0x000004
-.config_8007_BUILD/DEFAULT/PRODUCTION/_EXT/11       code   0x008007    program   0x000002
-.config_8008_BUILD/DEFAULT/PRODUCTION/_EXT/11       code   0x008008    program   0x000002
+.config_8007_BUILD/DEFAULT/PRODUCTION/FM_1827       code   0x008007    program   0x000002
+.config_8008_BUILD/DEFAULT/PRODUCTION/FM_1827       code   0x008008    program   0x000002
 
 
 
@@ -18,77 +18,83 @@ Linker Map File - Created Tue Oct  1 13:13:10 2013
                                Start         End      
                            ---------   ---------      
                             0x000000    0x000000      
-                            0x000004    0x0000c0      
+                            0x000004    0x0000d0      
                             0x000800    0x000927      
                             0x008007    0x008008      
-            488 out of 4359 program addresses used, program memory utilization is 11%
+            504 out of 4359 program addresses used, program memory utilization is 11%
 
 
 
                               Symbols - Sorted by Name
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                     ADD0   0x000058    program     static ../fm_asm/fm_1827.asm    
-                     ADD1   0x000068    program     static ../fm_asm/fm_1827.asm    
-                  APLYENV   0x000098    program     static ../fm_asm/fm_1827.asm    
-                  APLYMD0   0x00009f    program     static ../fm_asm/fm_1827.asm    
-                  APLYMD1   0x0000a7    program     static ../fm_asm/fm_1827.asm    
-                  CASTWAV   0x0000ae    program     static ../fm_asm/fm_1827.asm    
-                   CAST_H   0x0000b1    program     static ../fm_asm/fm_1827.asm    
-                   CAST_L   0x0000b3    program     static ../fm_asm/fm_1827.asm    
-                    CHKSW   0x000027    program     static ../fm_asm/fm_1827.asm    
-                   CLRKEY   0x000031    program     static ../fm_asm/fm_1827.asm    
-                       FM   0x00003a    program     static ../fm_asm/fm_1827.asm    
-                  INIT_FM   0x000043    program     static ../fm_asm/fm_1827.asm    
-                     INTV   0x000004    program     static ../fm_asm/fm_1827.asm    
-                      IRQ   0x000005    program     static ../fm_asm/fm_1827.asm    
-                  LOOPENV   0x00009b    program     static ../fm_asm/fm_1827.asm    
-                     MAIN   0x00001e    program     static ../fm_asm/fm_1827.asm    
-                  OPX_WAV   0x000072    program     static ../fm_asm/fm_1827.asm    
-                  OUT_R2R   0x0000bb    program     static ../fm_asm/fm_1827.asm    
-                  P0_STEP   0x000052    program     static ../fm_asm/fm_1827.asm    
-                  P1_STEP   0x000062    program     static ../fm_asm/fm_1827.asm    
-                   RESETV   0x000000    program     static ../fm_asm/fm_1827.asm    
-                  ROM2SIN   0x000081    program     static ../fm_asm/fm_1827.asm    
-                    START   0x000009    program     static ../fm_asm/fm_1827.asm    
-                  STEPENV   0x00008a    program     static ../fm_asm/fm_1827.asm    
-                     SUB0   0x00005d    program     static ../fm_asm/fm_1827.asm    
-                     SUB1   0x00006d    program     static ../fm_asm/fm_1827.asm    
-                    SYNCS   0x0000b6    program     static ../fm_asm/fm_1827.asm    
-                  SYN_JOB   0x000033    program     static ../fm_asm/fm_1827.asm    
+                     ADD0   0x00005b    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     ADD1   0x00006b    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  APLYENV   0x00009b    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  APLYMD0   0x0000a2    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  APLYMD1   0x0000aa    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  CASTWAV   0x0000be    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   CAST_H   0x0000c1    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   CAST_L   0x0000c3    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                    CHKSW   0x000027    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   CLRKEY   0x000034    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  DECRESE   0x0000b1    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                       FM   0x00003d    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  INIT_FM   0x000046    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     INTV   0x000004    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                      IRQ   0x000005    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  LOOPENV   0x00009e    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     MAIN   0x00001e    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   MODLOG   0x0000b6    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  OPX_WAV   0x000075    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  OUT_R2R   0x0000cb    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  P0_STEP   0x000055    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  P1_STEP   0x000065    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   RESETV   0x000000    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  ROM2SIN   0x000084    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   ROTCNT   0x0000b9    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                    START   0x000009    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  STEPENV   0x00008d    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     SUB0   0x000060    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     SUB1   0x000070    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                    SYNCS   0x0000c6    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  SYN_JOB   0x000036    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
 
 
 
                               Symbols - Sorted by Address
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                   RESETV   0x000000    program     static ../fm_asm/fm_1827.asm    
-                     INTV   0x000004    program     static ../fm_asm/fm_1827.asm    
-                      IRQ   0x000005    program     static ../fm_asm/fm_1827.asm    
-                    START   0x000009    program     static ../fm_asm/fm_1827.asm    
-                     MAIN   0x00001e    program     static ../fm_asm/fm_1827.asm    
-                    CHKSW   0x000027    program     static ../fm_asm/fm_1827.asm    
-                   CLRKEY   0x000031    program     static ../fm_asm/fm_1827.asm    
-                  SYN_JOB   0x000033    program     static ../fm_asm/fm_1827.asm    
-                       FM   0x00003a    program     static ../fm_asm/fm_1827.asm    
-                  INIT_FM   0x000043    program     static ../fm_asm/fm_1827.asm    
-                  P0_STEP   0x000052    program     static ../fm_asm/fm_1827.asm    
-                     ADD0   0x000058    program     static ../fm_asm/fm_1827.asm    
-                     SUB0   0x00005d    program     static ../fm_asm/fm_1827.asm    
-                  P1_STEP   0x000062    program     static ../fm_asm/fm_1827.asm    
-                     ADD1   0x000068    program     static ../fm_asm/fm_1827.asm    
-                     SUB1   0x00006d    program     static ../fm_asm/fm_1827.asm    
-                  OPX_WAV   0x000072    program     static ../fm_asm/fm_1827.asm    
-                  ROM2SIN   0x000081    program     static ../fm_asm/fm_1827.asm    
-                  STEPENV   0x00008a    program     static ../fm_asm/fm_1827.asm    
-                  APLYENV   0x000098    program     static ../fm_asm/fm_1827.asm    
-                  LOOPENV   0x00009b    program     static ../fm_asm/fm_1827.asm    
-                  APLYMD0   0x00009f    program     static ../fm_asm/fm_1827.asm    
-                  APLYMD1   0x0000a7    program     static ../fm_asm/fm_1827.asm    
-                  CASTWAV   0x0000ae    program     static ../fm_asm/fm_1827.asm    
-                   CAST_H   0x0000b1    program     static ../fm_asm/fm_1827.asm    
-                   CAST_L   0x0000b3    program     static ../fm_asm/fm_1827.asm    
-                    SYNCS   0x0000b6    program     static ../fm_asm/fm_1827.asm    
-                  OUT_R2R   0x0000bb    program     static ../fm_asm/fm_1827.asm    
+                   RESETV   0x000000    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     INTV   0x000004    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                      IRQ   0x000005    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                    START   0x000009    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     MAIN   0x00001e    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                    CHKSW   0x000027    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   CLRKEY   0x000034    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  SYN_JOB   0x000036    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                       FM   0x00003d    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  INIT_FM   0x000046    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  P0_STEP   0x000055    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     ADD0   0x00005b    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     SUB0   0x000060    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  P1_STEP   0x000065    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     ADD1   0x00006b    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                     SUB1   0x000070    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  OPX_WAV   0x000075    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  ROM2SIN   0x000084    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  STEPENV   0x00008d    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  APLYENV   0x00009b    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  LOOPENV   0x00009e    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  APLYMD0   0x0000a2    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  APLYMD1   0x0000aa    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  DECRESE   0x0000b1    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   MODLOG   0x0000b6    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   ROTCNT   0x0000b9    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  CASTWAV   0x0000be    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   CAST_H   0x0000c1    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                   CAST_L   0x0000c3    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                    SYNCS   0x0000c6    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
+                  OUT_R2R   0x0000cb    program     static /home/kazusa/MPLABXProjects/fm_asm.X/fm_1827.asm
 
 
