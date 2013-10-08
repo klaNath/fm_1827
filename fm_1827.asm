@@ -1,3 +1,6 @@
+;This software is released under the MIT License, see LICENSE.txt.
+
+
 LIST	P=PIC16F1827,R=DEC
 INCLUDE	"p16f1827.inc"
 
