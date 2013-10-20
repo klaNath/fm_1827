@@ -1,4 +1,4 @@
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE  1
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ Message[303]: Program word too large.  Truncated to core size. (DDFF)
   00000038            00035 ATKCNT    EQU 38H
   00000039            00036 CNTMOD    EQU 39H
                       00037 
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE  2
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ Message[302]: Register in operand not in bank 0.  Ensure that bank bits are corr
 0020   2???           00082     CALL        SYN_JOB
 0021   19A1           00083     BTFSC JOBF,SW_EST
 0022   2???           00084     CALL  CHKSW
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE  3
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 004E   01A8           00135                 CLRF    OUTWAV_0
 004F   01A9           00136                 CLRF    MODF_0
 0050   01AD           00137                 CLRF    MOD_SIG_0
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE  4
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -234,7 +234,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0080   082F           00188                 MOVF    P_QUAD_1,0
 0081   00B5           00189                 MOVWF   ROM_QUAD
 0082   2???           00190                 CALL    ROM2SIN
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE  5
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -293,7 +293,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00B0   0008           00241                 RETURN
 00B1   1433           00242                 BSF     MOD_SIG_1,0
 00B2   0008           00243                 RETURN
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE  6
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -352,7 +352,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0807   000A           00293         DE      10
 0808   000C           00294         DE      12
 0809   000E           00295         DE      14
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE  7
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE  7
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -411,7 +411,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 083C   005C           00346         DE      92
 083D   005D           00347         DE      93
 083E   005F           00348         DE      95
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE  8
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE  8
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -470,7 +470,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0871   00A3           00399         DE      163
 0872   00A4           00400         DE      164
 0873   00A5           00401         DE      165
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE  9
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE  9
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -529,7 +529,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 08A6   00D9           00452         DE      217
 08A7   00DA           00453         DE      218
 08A8   00DB           00454         DE      219
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 10
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 10
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -588,7 +588,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 08DB   00F8           00505         DE      248
 08DC   00F9           00506         DE      249
 08DD   00F9           00507         DE      249
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 11
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 11
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -647,7 +647,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 090A   0004           00558         DE      4
 090B   0004           00559         DE      4
 090C   0004           00560         DE      4
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 12
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 12
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -684,7 +684,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 Message[303]: Program word too large.  Truncated to core size. (CFC4)
 Message[303]: Program word too large.  Truncated to core size. (DDFF)
 0FC4 1DFF             00589         END
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 13
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 13
 
 
 SYMBOL TABLE
@@ -743,7 +743,7 @@ BCL1IE                            00000003
 BCL1IF                            00000003
 BCL2IE                            00000001
 BCL2IF                            00000001
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 14
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 14
 
 
 SYMBOL TABLE
@@ -802,7 +802,7 @@ C3TSEL1                           00000005
 C4TSEL0                           00000006
 C4TSEL1                           00000007
 CASTWAV                           000000C0
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 15
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 15
 
 
 SYMBOL TABLE
@@ -861,7 +861,7 @@ CCPR3H                            00000312
 CCPR3L                            00000311
 CCPR4                             00000318
 CCPR4H                            00000319
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 16
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 16
 
 
 SYMBOL TABLE
@@ -920,7 +920,7 @@ DACPSS0                           00000002
 DACPSS1                           00000003
 DACR0                             00000000
 DACR1                             00000001
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 17
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 17
 
 
 SYMBOL TABLE
@@ -979,7 +979,7 @@ FVRCON                            00000117
 FVREN                             00000007
 FVRRDY                            00000006
 GCEN                              00000007
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 18
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 18
 
 
 SYMBOL TABLE
@@ -1038,7 +1038,7 @@ JOBF                              00000021
 JOBMASK                           00000055
 KEYPORT                           00000004
 KEY_PRV                           0000002E
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 19
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 19
 
 
 SYMBOL TABLE
@@ -1097,7 +1097,7 @@ MDOPOL                            00000004
 MDOUT                             00000003
 MDSLR                             00000005
 MDSRC                             0000039D
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 20
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 20
 
 
 SYMBOL TABLE
@@ -1156,7 +1156,7 @@ P2DC6                             00000006
 P2M0                              00000006
 P2M1                              00000007
 P2RSEN                            00000007
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 21
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 21
 
 
 SYMBOL TABLE
@@ -1215,7 +1215,7 @@ RA7                               00000007
 RB0                               00000000
 RB1                               00000001
 RB2                               00000002
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 22
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 22
 
 
 SYMBOL TABLE
@@ -1274,7 +1274,7 @@ SRNQEN                            00000002
 SRPR                              00000000
 SRPS                              00000001
 SRQEN                             00000003
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 23
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 23
 
 
 SYMBOL TABLE
@@ -1333,7 +1333,7 @@ STR1B                             00000001
 STR1C                             00000002
 STR1D                             00000003
 STR1SYNC                          00000004
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 24
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 24
 
 
 SYMBOL TABLE
@@ -1392,7 +1392,7 @@ T6OUTPS1                          00000004
 T6OUTPS2                          00000005
 T6OUTPS3                          00000006
 TMR0                              00000015
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 25
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 25
 
 
 SYMBOL TABLE
@@ -1451,7 +1451,7 @@ TSRNG                             00000004
 TUN0                              00000000
 TUN1                              00000001
 TUN2                              00000002
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 26
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 26
 
 
 SYMBOL TABLE
@@ -1510,7 +1510,7 @@ _CONFIG2                          00008008
 _CPD_OFF                          0000FFFF
 _CPD_ON                           0000FEFF
 _CP_OFF                           0000FFFF
-MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:15         PAGE 27
+MPASM  5.52  /HOME/KAZUSA/MPLABXPROJECTS/FM_A   10-10-2013  11:50:21         PAGE 27
 
 
 SYMBOL TABLE
@@ -1553,6 +1553,7 @@ _WRT_BOOT                         0000FFFE
 _WRT_HALF                         0000FFFD
 _WRT_OFF                          0000FFFF
 __16F1827                         00000001
+__DEBUG                           
 
 Errors   :     0
 Warnings :     4 reported,     0 suppressed

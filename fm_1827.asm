@@ -85,8 +85,8 @@ MAIN		CLRW                  ;system main loutin
 		BTFSC	JOBF,FM_EST
 		CALL	FM
 		CALL	CASTWAV
-    CALL  DECRESE
-    CALL  MODLOG
+    ;CALL  DECRESE
+    ;CALL  MODLOG
 		CALL	SYNCS
 		CALL	OUT_R2R
 		GOTO	MAIN
