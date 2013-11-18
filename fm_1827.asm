@@ -1,11 +1,9 @@
-;This software is released under the MIT License, see LICENSE.txt.
-
 
 LIST	P=PIC16F1827,R=DEC
 INCLUDE	"p16f1827.inc"
 
 
-__CONFIG _CONFIG1 , _PWRTE_ON & _MCLRE_ON & _WDTE_OFF & _FOSC_INTOSC & _CP_OFF &_CLKOUTEN_OFF & _IESO_OFF & _FCMEN_OFF
+__CONFIG _CONFIG1 , _PWRTE_ON & _MCLRE_ON & _WDTE_OFF & _FOSC_INTOSC & _CP_OFF & _CLKOUTEN_OFF & _IESO_OFF & _FCMEN_OFF
 __CONFIG _CONFIG2 , _WRT_OFF & _PLLEN_ON & _STVREN_OFF & _LVP_OFF
 
 LOOPCNT		EQU	20H
@@ -18,6 +16,9 @@ ENV_CNT		EQU	26H
 ENV_OUT		EQU	27H
 OUTWAV_0	EQU	28H
 MODF_0		EQU	29H
+DTY EQU 2AH
+MODDTY  EQU 2BH
+LEDDTY  EQU 2CH
 
 
 
@@ -31,14 +32,12 @@ MOD_SIG_1	EQU	33H
 ROM_PHASE	EQU	34H
 ROM_QUAD	EQU	35H
 OUTWAV		EQU	36H
-SYSTIK    EQU 37H
-ATKCNT    EQU 38H
-CNTMOD    EQU 39H
+DTYTIK  EQU 37H
+
 
 KEYPORT		EQU	4
 FM_ON		EQU	0
 FM_EST		EQU	1
-SW_EST  EQU 3
 
 JOBMASK		EQU	B'01010101'
 PHASE_ROM_H	EQU	88H
@@ -50,18 +49,19 @@ RESETV  	GOTO	START
 	ORG	04H
 INTV		GOTO	IRQ
 
-IRQ     	INCF	INTFG,1       ;intrupt que, setting INTFG flag
+IRQ     	INCF	INTFG,1
         	MOVLW	B'10100000'
         	MOVWF	INTCON
         	RETFIE
 
-START   	MOVLB   1           ;starting loutin include setting peripherals and set Flags 
+START   	MOVLB   1
         	MOVLW	B'11010000'
         	MOVWF	OPTION_REG
 		CLRF    TRISB
-		MOVLW	B'00010000'
-		MOVWF	TRISA
-		MOVLW	B'11110000'
+        BSF TRISB,0
+        CLRF    TRISA
+        BSF     TRISA,4
+		MOVLW   B'11110000'
 		MOVWF	OSCCON
 		MOVLB	3
 		CLRF	ANSELA
@@ -69,45 +69,101 @@ START   	MOVLB   1           ;starting loutin include setting peripherals and se
         	MOVLB   0
         	MOVLW   B'10100000'
 		MOVWF	INTCON
+        MOVLW   B'00000100'
+        MOVWF   T2CON
+        MOVLW   3FH
+        MOVWF   PR2
 		CLRF	PORTB
 		CLRF	TMR0
 		CLRF	INTFG
 		CLRF	JOBF
 		CLRF	LOOPCNT
+        CLRF    DTY
+        CLRF    MODDTY
+        CLRF    LEDDTY
 		CALL	INIT_FM
-    BSF   JOBF,SW_EST
-    GOTO    MAIN
+        CALL    INIT_CCP
+        CALL    INIT_SR
+        CALL    INIT_SPI
+      	GOTO    MAIN
 
-MAIN		CLRW                  ;system main loutin
-    CALL	SYN_JOB
-    BTFSC JOBF,SW_EST
-    CALL  CHKSW
+INIT_CCP
+    MOVLB   2
+    BSF APFCON0,SDO1SEL
+    MOVLB   5
+    MOVLW   B'00001100'
+    MOVWF   CCP1CON
+    CLRF    CCPTMRS
+    RETURN
+
+INIT_SR
+    MOVLB   2
+    MOVLW   B'10001000'
+    MOVWF   SRCON0
+    MOVLW   B'10000000'
+    MOVWF   SRCON1
+    MOVLB   0
+    RETURN
+
+INIT_SPI
+    MOVLB   4
+    MOVLW   B'00100000'
+    MOVWF   SSP2CON1
+    CLRF    SSP2STAT
+    MOVLB   0
+    RETURN
+
+MAIN		
+        CLRW
+        CALL    DECDTY
+		CALL	CHKSW
+        BTFSC   JOBF,FM_ON
+        CALL    CNTDTY
+		CALL	SYN_JOB
 		BTFSC	JOBF,FM_EST
 		CALL	FM
 		CALL	CASTWAV
-    ;CALL  DECRESE
-    ;CALL  MODLOG
+        CALL    LOGDTY
+        CALL    LEDSENT
 		CALL	SYNCS
-		CALL	OUT_R2R
+		CALL	OUT_DAC
 		GOTO	MAIN
 
-CHKSW BTFSS	LOOPCNT,7         ;checking input of switch and Counting SYSTIK (System tick)
-      INCF  SYSTIK,1
-		RETURN
-		CLRF	LOOPCNT
-		BTFSS	PORTA,KEYPORT
-		GOTO	CLRKEY
-		BTFSC	KEY_PRV,0
-		RETURN
-		BSF	JOBF,FM_ON
-		BSF	KEY_PRV,0
-    MOVLW 11
-    ADDWF ATKCNT,1
-		RETURN
-CLRKEY		BCF	KEY_PRV,0
-		RETURN
+DECDTY
+    BTFSS   LOOPCNT,7
+    RETURN
+    INCF    DTYTIK
+    BTFSS   DTYTIK,7
+    RETURN
+    BCF STATUS,C
+    LSRF    DTY,1
+    CLRF    DTYTIK
+    RETURN
 
-SYN_JOB		MOVF	JOBF,0          ;Establishing JOBs
+CHKSW		
+        BTFSS	LOOPCNT,7
+		RETURN
+        MOVLB   2
+        BCF SRCON0,0
+        MOVLB   0
+		CLRF	LOOPCNT
+		BTFSC	PORTA,4
+		BSF	JOBF,FM_ON
+        MOVLB   2
+        BSF SRCON0,0
+		MOVLB   0
+        RETURN
+
+CNTDTY
+        MOVLW   8
+        ADDWF   DTY,1
+        BTFSS   STATUS,C
+        RETURN
+        MOVLW   0FFH
+        MOVWF   DTY
+        RETURN
+
+SYN_JOB		MOVF	JOBF,0
 		ANDLW	JOBMASK
 		BTFSC	STATUS,Z
 		RETURN
@@ -115,7 +171,7 @@ SYN_JOB		MOVF	JOBF,0          ;Establishing JOBs
 		IORWF	JOBF,1
 		RETURN
 
-FM		BTFSC	JOBF,FM_ON          ;FM main loutin
+FM		BTFSC	JOBF,FM_ON
 		CALL	INIT_FM
 		CALL	P0_STEP
 		CALL	P1_STEP
@@ -126,7 +182,7 @@ FM		BTFSC	JOBF,FM_ON          ;FM main loutin
 		;CALL	APLYMD1
 		RETURN
 
-INIT_FM		BCF	JOBF,FM_ON        ;Initializing FM's GPRs and clear FM_ON flag
+INIT_FM		BCF	JOBF,FM_ON
 		CLRF	P_QUAD_0
 		CLRF	P_PHASE_0
 		CLRF	ENV_TIK
@@ -159,7 +215,8 @@ SUB0		MOVF	MODF_0,0
 		DECF	P_QUAD_0,1
 		RETURN
 
-P1_STEP		MOVLW	29            ;phase steping and Modulation adding
+P1_STEP		MOVLW	29
+        ADDWF   MODDTY,0
 		ADDWF	P_PHASE_1,1
 		BTFSC	STATUS,C
 		INCF	P_QUAD_1,1
@@ -176,7 +233,7 @@ SUB1		MOVF	MODF_0,0
 		DECF	P_QUAD_1,1
 		RETURN
 
-OPX_WAV	MOVF	P_PHASE_0,0     ;gets SIN value
+OPX_WAV	MOVF	P_PHASE_0,0
 		MOVWF	ROM_PHASE
 		MOVF	P_QUAD_0,0
 		MOVWF	ROM_QUAD
@@ -192,7 +249,7 @@ OPX_WAV	MOVF	P_PHASE_0,0     ;gets SIN value
 		MOVWF	OUTWAV_1
 		RETURN
 
-ROM2SIN	MOVF	ROM_PHASE,0     ;load SIN value from Flash ROM,
+ROM2SIN	MOVF	ROM_PHASE,0
 		BTFSC	ROM_QUAD,0
 		COMF	WREG,0
 		MOVWF	FSR0L
@@ -202,7 +259,7 @@ ROM2SIN	MOVF	ROM_PHASE,0     ;load SIN value from Flash ROM,
 		MOVWF	OUTWAV
 		RETURN
 
-STEPENV	INCFSZ	ENV_TIK,1     ;steping Envelope Generator signal
+STEPENV	INCFSZ	ENV_TIK,1
 		RETURN
 		INCF	ENV_CNT,1
 		MOVF	ENV_CNT,0
@@ -217,7 +274,7 @@ STEPENV	INCFSZ	ENV_TIK,1     ;steping Envelope Generator signal
 		MOVWF	ENV_OUT
 		RETURN
 
-APLYENV	MOVF	ENV_OUT,0     ;apply Envelope Generator signal to OUTWAV
+APLYENV	MOVF	ENV_OUT,0
 		BTFSC	STATUS,Z
 		RETURN
 LOOPENV		LSRF	OUTWAV_0,1
@@ -225,7 +282,7 @@ LOOPENV		LSRF	OUTWAV_0,1
 		GOTO	LOOPENV
 		RETURN
 
-APLYMD0		MOVF	OUTWAV_0,0 ;transform OUTWAV to Modulation signal
+APLYMD0		MOVF	OUTWAV_0,0
 		MOVWF	MODF_0
 		LSRF	MODF_0,1
 		CLRF	MOD_SIG_0
@@ -234,7 +291,7 @@ APLYMD0		MOVF	OUTWAV_0,0 ;transform OUTWAV to Modulation signal
 		BSF	MOD_SIG_0,0
 		RETURN
 
-APLYMD1		MOVF	OUTWAV_1,0 
+APLYMD1		MOVF	OUTWAV_1,0
 		MOVWF	MODF_1
 		CLRF	MOD_SIG_1
 		BTFSS	P_QUAD_1,1
@@ -242,44 +299,77 @@ APLYMD1		MOVF	OUTWAV_1,0
 		BSF	MOD_SIG_1,0
 		RETURN
 
-DECRESE BTFSS SYSTIK,6      ;store to a half of ATKCNT itself  
-  RETURN
-  CLRF  SYSTIK
-  LSRF  ATKCNT,1
-  RETURN
-
-MODLOG  MOVF ATKCNT,0     ;apply LOG ATKCNT and store CNTMOD
-  BTFSC STATUS,Z
-  RETURN
-ROTCNT  INCF CNTMOD,1
-  LSRF WREG,0
-  BTFSS STATUS,Z
-  GOTO ROTCNT
-  RETURN
-
-;MAXACT it has ACTION, is relation for ATKCNT counting maximam
-
-CASTWAV		LSRF	OUTWAV_1,1              ;transforming OUTWAV to R-2R ladder format
+CASTWAV
+        LSRF	OUTWAV_1,1
 		BTFSC	P_QUAD_1,1
 		GOTO	CAST_L
-CAST_H		BSF	OUTWAV_1,7
+CAST_H
+        BSF	OUTWAV_1,7
 		RETURN
-CAST_L		COMF	OUTWAV_1,1
+CAST_L
+        COMF	OUTWAV_1,1
 		BCF	OUTWAV_1,7
 		RETURN
 
-SYNCS		BTFSS	INTFG,0                   ;sync Sampling period (waiting timer1 overflow intarupt)
+LOGDTY
+    CLRF    MODDTY
+    MOVF    DTY,0
+    BTFSC   STATUS,Z
+    RETURN
+    INCF    MODDTY,1
+RTTLOG
+    BCF STATUS,C
+    LSRF    WREG,0
+    BTFSC   STATUS,Z
+    RETURN
+    INCF    MODDTY,1
+    GOTO    RTTLOG
+
+LEDSENT
+    INCF  DTY,0
+    BTFSC   STATUS,Z
+    GOTO    FULLCNT
+    MOVF    MODDTY,0
+    BTFSC   STATUS,Z
+    RETURN
+    BSF LEDDTY,0
+    DECFSZ  WREG,0
+    GOTO    NRTT
+    GOTO    SEND
+NRTT
+    BCF STATUS,C
+    LSLF    LEDDTY,1
+    DECFSZ  WREG,0
+    GOTO    NRTT
+SEND
+    MOVF    LEDDTY,0
+    MOVLB   4
+    MOVWF   SSP2BUF
+    MOVLB   0
+    RETURN
+FULLCNT
+    MOVLB   4
+    MOVLW   0FFH
+    MOVWF   SSP2BUF
+    MOVLB   0
+    RETURN
+
+SYNCS
+        BTFSS	INTFG,0
 		GOTO	SYNCS
 		INCF	LOOPCNT,1
 		CLRF	INTFG
 		RETURN
 
-OUT_R2R		MOVF	OUTWAV_1,0              ;output WAV date (8bit)
-		MOVWF	PORTB
-		CLRF	OUTWAV
-		CLRF	OUTWAV_0
-		CLRF	OUTWAV_1
-		RETURN
+OUT_DAC
+    MOVF   OUTWAV_1,0
+    MOVLB   5
+    MOVWF   CCPR1L
+    MOVLB   0
+	CLRF	OUTWAV
+	CLRF	OUTWAV_0
+	CLRF	OUTWAV_1
+	RETURN
 
 ;ROMs for fm synthesize table
 	ORG	800H
@@ -541,9 +631,6 @@ OUT_R2R		MOVF	OUTWAV_1,0              ;output WAV date (8bit)
 	DE	255
 
 
-
-;Envelope Table
-
 	ORG	900H
 	DE	8
 	DE	7
@@ -587,3 +674,4 @@ OUT_R2R		MOVF	OUTWAV_1,0              ;output WAV date (8bit)
 
 
 	END
+
