@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=fm_asm.X
+PROJECTNAME=fm_1827
 
 # Active Configuration
 DEFAULTCONF=default

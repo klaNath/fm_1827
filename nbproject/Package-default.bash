@@ -10,9 +10,9 @@ CND_CONF=default
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/fm_asm.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-OUTPUT_BASENAME=fm_asm.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-PACKAGE_TOP_DIR=fmasm.x/
+OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/fm_1827.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+OUTPUT_BASENAME=fm_1827.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+PACKAGE_TOP_DIR=fm1827/
 
 # Functions
 function checkReturnCode
@@ -57,15 +57,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/fmasm.x/bin
+makeDirectory ${TMPDIR}/fm1827/bin
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/package/fmasm.x.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/package/fm1827.tar
 cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/fmasm.x.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/fm1827.tar *
 checkReturnCode
 
 # Cleanup
