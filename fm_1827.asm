@@ -1,4 +1,3 @@
-
 	  LIST	P=PIC16F1827,R=DEC
 	  INCLUDE	"p16f1827.inc"
 
@@ -59,6 +58,7 @@ SUSLEVEL	EQU	10
 
 
         ORG    	00H
+        	NOP
 RESETV  	GOTO	START
 
 	ORG	04H
